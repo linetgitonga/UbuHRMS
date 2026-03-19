@@ -14,7 +14,7 @@ const register = async (req, res) => {
     user.password = await bcrypt.hash(password, salt);
     await user.save();
 
-    const payload = { user: { id: user.id, role: user.role } };
+    const payload = { id: user.id, role: user.role };  // Updated: Removed nested 'user'
     jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' }, (err, token) => {
       if (err) throw err;
       res.json({ token });
@@ -34,7 +34,7 @@ const login = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ msg: 'Invalid credentials' });
 
-    const payload = { user: { id: user.id, role: user.role } };
+    const payload = { id: user.id, role: user.role };  // Updated: Removed nested 'user'
     jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' }, (err, token) => {
       if (err) throw err;
       res.json({ token });
