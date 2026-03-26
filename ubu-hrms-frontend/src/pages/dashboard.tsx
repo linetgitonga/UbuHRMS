@@ -1,88 +1,68 @@
-import { Users, Clock, DollarSign, Target } from 'lucide-react'
-
-const StatCard = ({ icon, label, value, change }: any) => (
-  <div className="bg-card border border-border rounded-lg p-6">
-    <div className="flex items-start justify-between">
-      <div>
-        <p className="text-sm text-muted-foreground mb-1">{label}</p>
-        <h3 className="text-3xl font-bold text-foreground">{value}</h3>
-      </div>
-      <div className="p-3 bg-primary/10 rounded-lg">
-        {icon}
-      </div>
-    </div>
-    {change && (
-      <p className="text-xs text-muted-foreground mt-4">
-        <span className="text-primary">{change}</span> from last month
-      </p>
-    )}
-  </div>
-)
+import { ArrowUpRight, Clock, DollarSign, Target, Users } from 'lucide-react'
+import { DataTable, MetricCard, PageHeader, SectionCard, TimelineItem } from '../components/page-primitives'
 
 export default function Dashboard() {
+  const onboardingRows = [
+    ['Mary Atieno', 'Housekeeping', 'Today', 'Docs Pending'],
+    ['Brian Oduor', 'Kitchen', 'Mar 28', 'Orientation'],
+    ['Diana Njeri', 'Front Desk', 'Apr 01', 'Ready'],
+  ]
+
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-foreground">Dashboard</h1>
-        <p className="text-muted-foreground mt-1">Welcome back! Here's your HR overview.</p>
-      </div>
+      <PageHeader
+        title="Operations Dashboard"
+        subtitle="Track workforce health, payroll readiness, and service-delivery staffing in one place."
+        action={
+          <button className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90">
+            Export Snapshot
+            <ArrowUpRight size={16} />
+          </button>
+        }
+      />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatCard
+        <MetricCard
           icon={<Users className="text-primary" size={24} />}
           label="Total Employees"
           value="156"
-          change="+2"
+          trend="+2 this week"
         />
-        <StatCard
+        <MetricCard
           icon={<Clock className="text-primary" size={24} />}
           label="Present Today"
           value="142"
-          change="+5"
+          trend="91% attendance"
         />
-        <StatCard
+        <MetricCard
           icon={<DollarSign className="text-primary" size={24} />}
           label="Pending Payroll"
           value="KES 2.5M"
-          change="+150K"
+          trend="Cutoff in 3 days"
         />
-        <StatCard
+        <MetricCard
           icon={<Target className="text-primary" size={24} />}
           label="KPI Completion"
           value="78%"
-          change="+3%"
+          trend="+3% month-over-month"
         />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-card border border-border rounded-lg p-6">
-          <h2 className="text-lg font-semibold text-foreground mb-4">Recent Activity</h2>
-          <div className="space-y-4">
-            {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="flex items-start gap-4 pb-4 border-b border-border last:border-0 last:pb-0">
-                <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
-                  <Users size={20} className="text-primary" />
-                </div>
-                <div className="flex-1">
-                  <p className="text-sm font-medium text-foreground">Employee Check-in</p>
-                  <p className="text-xs text-muted-foreground">5 minutes ago</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        <SectionCard
+          title="New Joiners Pipeline"
+          description="Verify documentation and induction progress for incoming staff."
+        >
+          <DataTable columns={['Name', 'Department', 'Start Date', 'Status']} rows={onboardingRows} />
+        </SectionCard>
 
-        <div className="bg-card border border-border rounded-lg p-6">
-          <h2 className="text-lg font-semibold text-foreground mb-4">Upcoming Events</h2>
-          <div className="space-y-4">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="pb-4 border-b border-border last:border-0 last:pb-0">
-                <p className="text-sm font-medium text-foreground">Team Meeting</p>
-                <p className="text-xs text-muted-foreground">Today at 2:00 PM</p>
-              </div>
-            ))}
+        <SectionCard title="Live Activity" description="Latest workforce and system events.">
+          <div className="space-y-3">
+            <TimelineItem title="Biometric Sync Complete" detail="4 devices uploaded 311 logs." time="11 minutes ago" />
+            <TimelineItem title="Leave Request Approved" detail="Mercy Akinyi approved by HR." time="28 minutes ago" />
+            <TimelineItem title="Payroll Batch Validated" detail="No high-risk anomalies detected." time="1 hour ago" />
           </div>
-        </div>
+        </SectionCard>
       </div>
     </div>
   )

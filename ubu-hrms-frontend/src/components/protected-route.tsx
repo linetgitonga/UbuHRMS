@@ -1,15 +1,14 @@
 import React from 'react'
 import { Outlet, Navigate } from 'react-router-dom'
 import { useAuth } from '../lib/auth-context'
-import { Spinner } from '../../components/ui/spinner'
 
 export default function ProtectedRoute() {
   const { token, isLoading } = useAuth()
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <Spinner />
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
       </div>
     )
   }
@@ -19,11 +18,11 @@ export default function ProtectedRoute() {
   }
 
   return (
-    <div className="flex h-screen bg-background">
+    <div className="flex min-h-screen bg-background">
       <Sidebar />
-      <div className="flex-1 flex flex-col">
+      <div className="flex flex-1 flex-col">
         <Header />
-        <main className="flex-1 overflow-auto p-6">
+        <main className="flex-1 overflow-auto bg-gradient-to-b from-background to-muted/20 px-4 pb-6 pt-16 md:ml-64 md:p-6">
           <Outlet />
         </main>
       </div>

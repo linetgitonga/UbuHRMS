@@ -17,10 +17,6 @@ import Contracts from './pages/contracts'
 import Reports from './pages/reports'
 import Settings from './pages/settings'
 
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';  // Assuming you're using createBrowserRouter
-
-
-
 export default function App() {
   return (
     <AuthProvider>

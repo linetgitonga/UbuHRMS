@@ -1,6 +1,7 @@
 import { useAuth } from '../lib/auth-context'
 import { useNavigate } from 'react-router-dom'
-import { LogOut, User } from 'lucide-react'
+import { Bell, LogOut, ShieldCheck, User } from 'lucide-react'
+import { MetricCard, PageHeader, SectionCard } from '../components/page-primitives'
 
 export default function Settings() {
   const { username, logout } = useAuth()
@@ -13,33 +14,35 @@ export default function Settings() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-foreground">Settings</h1>
-        <p className="text-muted-foreground mt-1">Manage your account and preferences.</p>
+      <PageHeader
+        title="Settings"
+        subtitle="Control your profile, security preferences, and account behavior."
+      />
+
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <MetricCard icon={<User size={20} />} label="Signed In As" value={username || 'N/A'} trend="Role-based access enabled" />
+        <MetricCard icon={<ShieldCheck size={20} />} label="Security Status" value="Protected" trend="Session token active" />
+        <MetricCard icon={<Bell size={20} />} label="Notifications" value="Enabled" trend="Email + in-app" />
       </div>
 
-      <div className="max-w-2xl space-y-6">
-        <div className="bg-card border border-border rounded-lg p-6">
-          <h2 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
-            <User size={20} /> Profile Information
-          </h2>
+      <div className="max-w-3xl space-y-6">
+        <SectionCard title="Profile Information" description="Basic details used across the HRMS workspace.">
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-foreground mb-2">Username</label>
               <p className="px-4 py-2 bg-muted rounded-lg text-foreground">{username || 'N/A'}</p>
             </div>
           </div>
-        </div>
+        </SectionCard>
 
-        <div className="bg-card border border-border rounded-lg p-6">
-          <h2 className="text-lg font-semibold text-foreground mb-4">Account Management</h2>
+        <SectionCard title="Account Management" description="Sign out from this device when you are done.">
           <button
             onClick={handleLogout}
             className="flex items-center gap-2 px-4 py-2 bg-destructive hover:bg-destructive/90 text-destructive-foreground rounded-lg transition-colors font-medium"
           >
             <LogOut size={18} /> Logout
           </button>
-        </div>
+        </SectionCard>
       </div>
     </div>
   )
